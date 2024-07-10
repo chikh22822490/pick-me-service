@@ -1,6 +1,8 @@
 import {
   Body,
   Controller,
+  Get,
+  Param,
   Post,
   UploadedFile,
   UseInterceptors,
@@ -11,12 +13,23 @@ import { CreateRideDTO } from '../models/ride/createRide.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { AuthenticatedUser, Authorize } from '../auth';
+import { RideQueriesHandler } from '../queries';
+import { DisplayRideDto } from '../models';
 
 @Authorize()
-@Controller('/rides')
+@Controller('/ride')
 @ApiTags('ride')
 export class RideController {
-  constructor(private readonly _createRide: CreateRideUseCase) {}
+  constructor(
+    private readonly _createRide: CreateRideUseCase,
+    private readonly _rideQueriesHandler: RideQueriesHandler
+  ) {}
+
+  @Get('/all')
+  async getAllRides(): Promise<DisplayRideDto[]> {
+    const rides = await this._rideQueriesHandler.getAllRides();
+    return rides;
+  }
 
   @Post('/create')
   @UseInterceptors(
@@ -51,5 +64,13 @@ export class RideController {
       carImage: formattedCarImage,
     });
     return rideId;
+  }
+
+  @Get('/:userId/all')
+  async getUserRides(
+    @Param('userId') userId: string
+  ): Promise<DisplayRideDto[]> {
+    const rides = await this._rideQueriesHandler.getUserRides(userId);
+    return rides;
   }
 }

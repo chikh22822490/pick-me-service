@@ -11,6 +11,7 @@ import {
   UserRepositoryProvider,
 } from './pick-me/config';
 import { RideController, UserController } from './pick-me/controllers';
+import { RideQueriesHandler } from './pick-me/queries';
 
 @Module({
   imports: [],
@@ -25,6 +26,7 @@ import { RideController, UserController } from './pick-me/controllers';
     UpdateUserInfoProvider,
     UserRepositoryProvider,
     SetUserAvatarProvider,
+    RideQueriesHandler,
   ],
 })
 export class AppModule {}

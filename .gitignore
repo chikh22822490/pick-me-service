@@ -8,9 +8,6 @@ tmp
 # dependencies
 node_modules
 
-#environment
-.env
-
 # IDEs and editors
 /.idea
 .project
@@ -44,5 +41,3 @@ Thumbs.db
 # Azurite
 __blobstorage*
 __azurite*
-# Sentry Auth Token
-.sentryclirc

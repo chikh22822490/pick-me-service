@@ -1,0 +1,49 @@
+{
+  "configurations": [
+    {
+      "command": "npx nx serve",
+      "name": "service",
+      "request": "launch",
+      "type": "node-terminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "chrome",
+      "url": "http://localhost:3333/api",
+      "webRoot": "${workspaceFolder}",
+      "runtimeArgs": ["--disable-session-crashed-bubble"],
+      "runtimeExecutable": ""
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug NestJS App",
+      "args": ["${workspaceFolder}/apps/pick-me-api/src/main.ts"],
+      "runtimeArgs": [
+        "--nolazy",
+        "-r",
+        "ts-node/register",
+        "-r",
+        "tsconfig-paths/register"
+      ],
+      "sourceMaps": true,
+      "cwd": "${workspaceRoot}/apps/pick-me-api/",
+      "internalConsoleOptions": "openOnSessionStart",
+      "env": {
+        "TS_NODE_PROJECT": "${workspaceFolder}/apps/pick-me-api/tsconfig.app.json"
+      },
+
+      "runtimeExecutable": "~/.nvm/versions/node/v20.4.0/bin/node",
+      "skipFiles": ["<node_internals>/**", "node_modules/**"]
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Chrome/Service",
+      "configurations": ["chrome", "service"],
+      "stopAll": true
+    }
+  ]
+}

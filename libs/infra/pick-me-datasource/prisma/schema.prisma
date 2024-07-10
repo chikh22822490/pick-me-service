@@ -1,0 +1,23 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("PICK_ME_DATABASE")
+}
+
+model Ride {
+  id             String   @id @unique
+  userId         String
+  carModel       String
+  dateTime       DateTime
+  price          Float
+  departure      String
+  destination    String
+  availableSeats Int
+  email          String
+  phone          String
+  whatsapp       String
+}

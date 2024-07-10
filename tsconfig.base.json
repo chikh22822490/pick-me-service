@@ -1,0 +1,29 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+
+    "paths": {
+      "@file-storage": ["libs/infra/file-storage/src/index.ts"],
+      "@pick-me-core": ["libs/pick-me-core/src/index.ts"],
+      "@pick-me-datasource": ["libs/infra/pick-me-datasource/src/index.ts"],
+      "@emailing-service": ["libs/infra/emailing-service/src/index.ts"]
+    },
+
+    "inlineSources": true,
+    "sourceRoot": "/"
+  },
+  "exclude": ["node_modules", "tmp"]
+}

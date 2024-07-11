@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  Param,
   Post,
   UploadedFile,
   UseInterceptors,
@@ -15,15 +14,22 @@ import { diskStorage } from 'multer';
 import { AuthenticatedUser, Authorize } from '../auth';
 import { RideQueriesHandler } from '../queries';
 import { DisplayRideDto } from '../models';
+import * as fs from 'fs';
 
 @Authorize()
-@Controller('/ride')
-@ApiTags('ride')
+@Controller('/rides')
+@ApiTags('rides')
 export class RideController {
   constructor(
     private readonly _createRide: CreateRideUseCase,
     private readonly _rideQueriesHandler: RideQueriesHandler
   ) {}
+
+  @Get('/')
+  async getUserRides(@AuthenticatedUser() user): Promise<DisplayRideDto[]> {
+    const rides = await this._rideQueriesHandler.getUserRides(user.id);
+    return rides;
+  }
 
   @Get('/all')
   async getAllRides(): Promise<DisplayRideDto[]> {
@@ -49,28 +55,26 @@ export class RideController {
     @Body() ride: CreateRideDTO,
     @AuthenticatedUser() user
   ): Promise<string> {
-    const formattedCarImage: ReadableFile = {
-      originalName: carImage.originalname,
-      mimetype: carImage.mimetype,
-      size: carImage.size,
-      path: carImage.path,
-    };
-    const rideId = await this._createRide.execute({
-      userId: user.id,
-      ...ride,
-      dateTime: new Date(ride.dateTime),
-      price: parseFloat(ride.price.toString()),
-      availableSeats: parseFloat(ride.availableSeats.toString()),
-      carImage: formattedCarImage,
-    });
-    return rideId;
-  }
-
-  @Get('/:userId/all')
-  async getUserRides(
-    @Param('userId') userId: string
-  ): Promise<DisplayRideDto[]> {
-    const rides = await this._rideQueriesHandler.getUserRides(userId);
-    return rides;
+    try {
+      const formattedCarImage: ReadableFile = {
+        originalName: carImage.originalname,
+        mimetype: carImage.mimetype,
+        size: carImage.size,
+        path: carImage.path,
+      };
+      const rideId = await this._createRide.execute({
+        userId: user.id,
+        ...ride,
+        dateTime: new Date(ride.dateTime),
+        price: parseFloat(ride.price.toString()),
+        availableSeats: parseFloat(ride.availableSeats.toString()),
+        carImage: formattedCarImage,
+      });
+      return rideId;
+    } finally {
+      fs.unlink(carImage.path, function (err) {
+        if (err) throw err;
+      });
+    }
   }
 }

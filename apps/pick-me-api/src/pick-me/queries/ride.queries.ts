@@ -21,7 +21,8 @@ export class RideQueriesHandler {
         try {
           const carImage = await this._fileStorageService.downloadFile(ride.id);
           if (carImage) {
-            const carImageBase64String = await streamToBase64(carImage);
+            const carImageBase64String =
+              'data:image/*;base64,' + (await streamToBase64(carImage));
             ride.carImage = carImageBase64String;
           }
         } catch (error) {
@@ -45,7 +46,8 @@ export class RideQueriesHandler {
         try {
           const carImage = await this._fileStorageService.downloadFile(ride.id);
           if (carImage) {
-            const carImageBase64String = await streamToBase64(carImage);
+            const carImageBase64String =
+              'data:image/*;base64,' + (await streamToBase64(carImage));
             ride.carImage = carImageBase64String;
           }
         } catch (error) {

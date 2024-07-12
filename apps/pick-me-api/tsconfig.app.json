@@ -9,5 +9,5 @@
     "esModuleInterop": true
   },
   "exclude": ["jest.config.ts", "**/*.spec.ts", "**/*.test.ts"],
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts", "src/pick-me/models/reservation"]
 }

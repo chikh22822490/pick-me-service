@@ -9,7 +9,7 @@ datasource db {
 }
 
 model Ride {
-  id             String   @id @unique
+  id             String        @id @unique
   userId         String
   carModel       String
   dateTime       DateTime
@@ -20,4 +20,13 @@ model Ride {
   email          String
   phone          String
   whatsapp       String
+  reservations   Reservation[] @relation("reservations")
+}
+
+model Reservation {
+  id     String @id @unique
+  rideId String
+  ride   Ride   @relation("reservations", fields: [rideId], references: [id])
+  userId String
+  bookedSeats Int
 }

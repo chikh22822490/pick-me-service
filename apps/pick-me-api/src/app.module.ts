@@ -9,13 +9,22 @@ import {
   CreateRideProvider,
   RideRepositoryProvider,
   UserRepositoryProvider,
+  CreateReservationProvider,
+  ReservationRepositoryProvider,
 } from './pick-me/config';
-import { RideController, UserController } from './pick-me/controllers';
-import { RideQueriesHandler } from './pick-me/queries';
+import {
+  ReservationController,
+  RideController,
+  UserController,
+} from './pick-me/controllers';
+import {
+  ReservationQueriesHandler,
+  RideQueriesHandler,
+} from './pick-me/queries';
 
 @Module({
   imports: [],
-  controllers: [RideController, UserController],
+  controllers: [RideController, UserController, ReservationController],
   providers: [
     DbClientProvider,
     ReadonlyDbClientProvider,
@@ -27,6 +36,9 @@ import { RideQueriesHandler } from './pick-me/queries';
     UserRepositoryProvider,
     SetUserAvatarProvider,
     RideQueriesHandler,
+    ReservationRepositoryProvider,
+    CreateReservationProvider,
+    ReservationQueriesHandler,
   ],
 })
 export class AppModule {}
